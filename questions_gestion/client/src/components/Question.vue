@@ -122,14 +122,14 @@ export default {
   },
   methods: {
     deleteQuestion(id) {
-      let uri = "http://ec2-18-224-8-36.us-east-2.compute.amazonaws.com:3000/question/delete/" + id;
+      let uri = "http://ec2-18-188-164-118.us-east-2.compute.amazonaws.com:3000/question/delete/" + id;
       axios.get(uri).then(res => {
           console.log(res);
         });
       this.getAllQuestions();
     },
     getAllQuestions() {
-      let uri = "http://ec2-18-224-8-36.us-east-2.compute.amazonaws.com:3000/question";
+      let uri = "http://ec2-18-188-164-118.us-east-2.compute.amazonaws.com:3000/question";
       axios.get(uri).then(response => {
         this.questions = response.data;
       });
@@ -139,7 +139,7 @@ export default {
     },
     save(nameNewQuestion,nameResponse1,nameResponse2,nameResponse3,radios) {
       if (event) event.preventDefault();
-      let url = "http://ec2-18-224-8-36.us-east-2.compute.amazonaws.com:3000/question/create";
+      let url = "http://ec2-18-188-164-118.us-east-2.compute.amazonaws.com:3000/question/create";
       let param = {
         title_question: nameNewQuestion,
         text_response1 : nameResponse1,
