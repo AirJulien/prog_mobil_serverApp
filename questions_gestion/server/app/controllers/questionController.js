@@ -7,13 +7,10 @@ exports.findDeleted =(req, res)=> {
     allQuestionsIdClient = req.params.array.split(",").map(function(item) {
         return parseInt(item, 10);
     });;
- console.log("allQuestionsIdClient "+allQuestionsIdClient)
     let allQuestionsId = [];
     Question.find({}, (err, results) => {
         results.forEach(r => allQuestionsId.push(r._id));
         let filtered = allQuestionsIdClient.filter((f) => !allQuestionsId.includes(f));
-        console.log("allQuestionsId "+allQuestionsId)
-        console.log("filtered "+filtered)
         return res.send(filtered);
     });  
 }
@@ -30,7 +27,6 @@ exports.findFromId = (req,res) =>{
 exports.findAll = (req, res) => {
     Question.find({}, (err, results) => {
     allQuestionsId = results.map(function(item){ return item._id;});
-    console.log("aa"+allQuestionsId[0])
        return res.send(results);
     });
 };
