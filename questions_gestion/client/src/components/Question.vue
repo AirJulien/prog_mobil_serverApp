@@ -1,14 +1,12 @@
 <template>
 	<div class = "Site">
 		<Toolbar></Toolbar>
-		<Carousel v-if="visible"></Carousel>
-		<v-dialog v-model="dialog" max-width="500px" @keydown.enter="save(nameNewQuestion,nameResponse1,nameResponse2,nameResponse3,radios)">
+		<v-dialog v-if="isAuth" v-model="dialog" max-width="500px" @keydown.enter="save(nameNewQuestion,nameResponse1,nameResponse2,nameResponse3,radios)">
 			<v-btn slot="activator" color="primary" dark class="mb-2">Ajouter une Question</v-btn>
 			<v-card>
 				<v-card-title>
 					<span class="headline">Nouvelle Question</span>
 				</v-card-title>
-
 				<v-card-text>
 					<v-container grid-list-md>
 						<v-layout wrap>
@@ -34,9 +32,7 @@
 						</v-layout>
 					</v-container>
 				</v-card-text>
-
-
-				<v-card-actions>
+    		<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="blue darken-1" flat @click="dialog = false">Annuler</v-btn>
 					<v-btn color="blue darken-1" flat @click="save(nameNewQuestion,nameResponse1,nameResponse2,nameResponse3,radios)">Valider</v-btn>
@@ -69,9 +65,13 @@ import bus from "../handler";
 import axios from "axios";
 import Toolbar from "./Toolbar";
 export default {
+  computed: {
+        isAuth: function () {
+        return this.$store.getters.isAuth
+        }
+    },
   data() {
     return {
-      visible: false,
       rules: {
         required: value => !!value || "Required."
       },
@@ -118,18 +118,17 @@ export default {
   components: { Toolbar },
   created: function() {
 	this.getAllQuestions();
-    this.listenToEvents();
   },
   methods: {
     deleteQuestion(id) {
-      let uri = "http://ec2-18-188-164-118.us-east-2.compute.amazonaws.com:3000/question/delete/" + id;
+      let uri = "http://localhost:5000/question/delete/" + id;
       axios.get(uri).then(res => {
           console.log(res);
         });
       this.getAllQuestions();
     },
     getAllQuestions() {
-      let uri = "http://ec2-18-188-164-118.us-east-2.compute.amazonaws.com:3000/question";
+      let uri = "http://localhost:5000/question";
       axios.get(uri).then(response => {
         this.questions = response.data;
       });
@@ -139,7 +138,7 @@ export default {
     },
     save(nameNewQuestion,nameResponse1,nameResponse2,nameResponse3,radios) {
       if (event) event.preventDefault();
-      let url = "http://ec2-18-188-164-118.us-east-2.compute.amazonaws.com:3000/question/create";
+      let url = "http://localhost:5000/question/create";
       let param = {
         title_question: nameNewQuestion,
         text_response1 : nameResponse1,
@@ -161,12 +160,7 @@ export default {
         .then(() => {
           this.close();
         });
-	},
-	listenToEvents(){
-		bus.$on('changeVisibility', ($event) => {
-            this.visible = !this.visible 
-        })
-	}
+	  }
   }
 };
 </script>

@@ -1,3 +1,8 @@
 module.exports = {
-    url: "mongodb+srv://admin:smartAccess35000@cluster0-3u4ga.mongodb.net/questions"
-  };
+    url: "mongodb://localhost:27017/Questions",
+    PORT: 5000,
+	  secret: 'monsecret',
+	  signOptions: {
+		expiresIn: '24h'
+	}
+};

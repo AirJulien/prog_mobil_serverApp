@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
-const handler = new Vue();
-
-export default handler;
+import Vue from 'vue'
+const handler = new Vue()
+export default handler
