@@ -6,6 +6,7 @@
     inset
     vertical
     ></v-divider>
+     <v-spacer></v-spacer>
     <Login v-if="!isAuth" ></Login>
     <logout v-if="isAuth"></logout>
 </v-toolbar>
@@ -15,11 +16,11 @@
 import Login from './Login'
 import Logout from './Logout'
 export default {
-    computed: {
-        isAuth: function () {
-        return this.$store.getters.isAuth
-        }
-    },
+  computed: {
+    isAuth: function () {
+      return this.$store.getters.isAuth
+    }
+  },
   components: {Login, Logout}
 }
 </script>

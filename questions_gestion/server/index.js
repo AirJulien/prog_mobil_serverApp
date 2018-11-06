@@ -12,7 +12,7 @@ const morgan = require('morgan');
 const router = require('./app/routes');
 const mongoose = require('mongoose');
 
-const autoIncrement =require ('mongoose-auto-increment');
+const autoIncrement = require ('mongoose-auto-increment');
 
 const auth = require('./app/middlewares/auth');
 auth.init(passport);
@@ -21,6 +21,7 @@ app.use(cookieParser())
 
 app.use(morgan('combined'));
 app.use(bodyParser.json()); // parse application/json
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 app.use(express.static('static'));
 
@@ -28,7 +29,7 @@ router(app, auth);
 
 var db = require('./config/db');
 console.log('dburl : '+db.url)
-mongoose.connect(db.url,{ useNewUrlParser: true }); 
+mongoose.connect(db.url,{ useNewUrlParser: true });
 
 app.use(session({secret: db.secret, resave: true, saveUninitialized: true}))
 app.use(passport.initialize())

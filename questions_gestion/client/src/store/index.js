@@ -32,7 +32,7 @@ export default new Vuex.Store({
     login ({commit}, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        Api().post('/api/login', user)
+        Api().post('/login', user)
           .then(res => {
             const token = res.data.token
             const user = res.data.user
