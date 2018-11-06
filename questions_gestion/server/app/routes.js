@@ -6,7 +6,7 @@ module.exports = (app,auth) => {
     const user = require('./controllers/userController');
 
     app.get('/api/question/deleted/:array',question.findDeleted)
-    app.get('/api/question/:id', question.findFromId);
+    app.get('/api/question/from/:id', question.findFromId);
     app.get('/api/question', auth.isAuth,  question.findAll);
     app.post('/api/question/create', auth.isAuth,  question.add);
     app.get('/api/question/delete/:id', auth.isAuth,  question.delete);
