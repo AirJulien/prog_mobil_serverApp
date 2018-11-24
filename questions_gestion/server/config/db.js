@@ -3,6 +3,6 @@ module.exports = {
     PORT: 5000,
 	  secret: 'monsecret',
 	  signOptions: {
-		expiresIn: '24h'
+		expiresIn: '86400000'
 	}
 };
