@@ -9,18 +9,16 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('jwtToken') || '',
-    user: {},
-    expirationDateToken : Date.now
+    user: {}
   },
   mutations: {
     auth_request (state) {
       state.status = 'loading'
     },
-    auth_success (state, token, user, expirationDateToken) {
+    auth_success (state, token, user) {
       state.status = 'success'
       state.token = token
       state.user = user
-      state.expirationDateToken = expirationDateToken
     },
     auth_error (state) {
       state.status = 'error'
@@ -28,23 +26,20 @@ export default new Vuex.Store({
     logout (state) {
       state.status = ''
       state.token = ''
-      state.expirationDateToken = ''
     }
   },
   actions: {
     login ({commit}, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        Api().post('/login', user)
+        Api.post('/login', user)
           .then(res => {
             const token = res.data.token
             console.log("res.data" + JSON.stringify(res.data))
             const user = res.data.user
-            const dateNow = new Date()
-            const expirationDateToken = new Date(dateNow.getTime()+ parseInt(res.data.tokenExpiresIn))
             localStorage.setItem('jwtToken', token)
             axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', token, user,expirationDateToken)
+            commit('auth_success', token, user)
             resolve(res)
           })
           .catch(err => {
@@ -64,9 +59,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    isAuth: state =>{
-      console.log("state.expirationDateToken "+state.expirationDateToken)
-      return (!!state.token && state.expirationDateToken >= Date.now) || (!!state.token && !state.expirationDateToken)},
+    isAuth: state =>!!state.token,
     authStatus: state => state.status
   }
 })

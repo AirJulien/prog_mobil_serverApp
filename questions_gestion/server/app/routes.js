@@ -1,6 +1,7 @@
 const express = require('express');
+const auth = require('./middlewares/auth');
 
-module.exports = (app,auth) => {
+module.exports = (app) => {
     //appel du controller
     const question = require('./controllers/questionController');
     const user = require('./controllers/userController');

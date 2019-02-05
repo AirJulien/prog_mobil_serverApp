@@ -19,10 +19,10 @@ exports.init = passport => {
 
 exports.isAuth = (req, res, next) => {
 	let token = getToken(req.headers);
-	if(!token) return res.status(403).send({success: false, msg: "Unauthorized"});
+	if(!token) return res.status(401).send({success: false, msg: "Unauthorized"});
 	else {
 		jwt.verify(token, config.secret, (err, decodedToken) => {
-			if(err) return res.status(403).send({success: false, msg: 'Token is invalid'});
+			if(err) return res.status(401).send({success: false, msg: 'Token is invalid'});
 			else {
 				req.apiToken = decodedToken;
 				next();
@@ -40,7 +40,7 @@ exports.login = (req, res) => {
 				if(!isMatch || err) return res.status(401).send({success: false, msg: 'Authentification failed. Wrong password.'});
 				else {
 					let token = jwt.sign(user.toJSON(), config.secret, config.signOptions);
-					return res.status(200).send({success: true, token: 'JWT ' + token, tokenExpiresIn : config.signOptions.expiresIn});
+					return res.status(200).send({success: true, token: token, test:"true" });
 				}
 			})
 		}
